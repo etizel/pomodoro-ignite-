@@ -1,11 +1,9 @@
-import styles from './Button.module.css';
+import { ButtonContainer, ButtonVariant } from './Button.styles';
 
-interface ButtonProps {
-  color?: 'primary' | 'secundary' | 'danger' | 'sucess';
+interface ButtonContainerProps {
+  variant?: ButtonVariant;
 }
 
-export function Button({ color = 'secundary' }: ButtonProps) {
-  return (
-    <button className={`${styles.button} ${styles[color]}`}>Enviar</button>
-  );
+export function Button({ variant = 'primary' }: ButtonContainerProps) {
+  return <ButtonContainer variant={variant}>Enviar</ButtonContainer>;
 }
