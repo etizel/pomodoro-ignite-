@@ -1,3 +1,3 @@
 export function Header() {
-  return <h1>Home</h1>;
+  return <h1>Header</h1>;
 }
