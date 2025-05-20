@@ -16,7 +16,7 @@ box-sizing: border-box;
 body {
   background: ${props => props.theme['gray-900']};
   color: ${props => props.theme['gray-100']};
-  -webkit
+  
 }
 
 body, input, textarea, button {
