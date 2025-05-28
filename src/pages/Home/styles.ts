@@ -15,6 +15,7 @@ export const HomeContainer = styled.main`
     align-items: center;
     gap: 3.5rem;
     width: 100%;
+    height: 100%;
     max-width: 800px;
     
     @media (max-width: 768px) {
