@@ -34,42 +34,6 @@ export function History() {
               <td>Há 7 dias</td>
               <td>Concluído</td>
             </tr>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>Há 7 dias</td>
-              <td>Concluído</td>
-            </tr>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>Há 7 dias</td>
-              <td>Concluído</td>
-            </tr>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>Há 7 dias</td>
-              <td>Concluído</td>
-            </tr>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>Há 7 dias</td>
-              <td>Concluído</td>
-            </tr>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>Há 7 dias</td>
-              <td>Concluído</td>
-            </tr>
-            <tr>
-              <td>Tarefa</td>
-              <td>20 minutos</td>
-              <td>Há 7 dias</td>
-              <td>Concluído</td>
-            </tr>
           </tbody>
         </table>
       </HistoryList>

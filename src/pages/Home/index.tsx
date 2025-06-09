@@ -1,4 +1,5 @@
 import { Play } from 'phosphor-react';
+import { useForm } from 'react-hook-form';
 import {
   CountDownContainer,
   FormContainer,
@@ -8,15 +9,22 @@ import {
 } from './styles';
 
 export function Home() {
+  const { register, handleSubmit } = useForm();
+
+  function handleCreateNewCyclo(data: any) {
+    return console.log(data);
+  }
+
   return (
     <HomeContainer>
-      <form action="">
+      <form onSubmit={handleSubmit(handleCreateNewCyclo)} action="">
         <FormContainer>
           <label htmlFor="task">Irei Trabalhar em:</label>
           <input
             id="task"
             list="task-suggestions"
             placeholder="Dê um nome ao teu projeto"
+            {...register('task')}
           />
 
           <datalist id="task-suggestions">
@@ -36,6 +44,7 @@ export function Home() {
             step={5}
             min={5}
             max={60}
+            {...register('minutesAmount')}
           />
 
           <span>minutos.</span>
