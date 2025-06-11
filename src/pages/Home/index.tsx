@@ -9,7 +9,8 @@ import {
 } from './styles';
 
 export function Home() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+  const task = watch('task');
 
   function handleCreateNewCyclo(data: any) {
     return console.log(data);
@@ -44,7 +45,7 @@ export function Home() {
             step={5}
             min={5}
             max={60}
-            {...register('minutesAmount')}
+            {...register('minutesAmount', { valueAsNumber: true })}
           />
 
           <span>minutos.</span>
@@ -58,7 +59,7 @@ export function Home() {
           <span>0</span>
         </CountDownContainer>
 
-        <StartCountdownButton type="submit">
+        <StartCountdownButton disabled={task} type="submit">
           <Play size={24} />
           Começar
         </StartCountdownButton>
