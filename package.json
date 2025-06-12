@@ -10,13 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "d": "^1.0.2",
     "phosphor-react": "^1.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.57.0",
     "react-router-dom": "^7.6.0",
-    "styled-components": "^6.1.17"
+    "styled-components": "^6.1.17",
+    "zod": "^3.26.0-canary.20250612T071714"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
