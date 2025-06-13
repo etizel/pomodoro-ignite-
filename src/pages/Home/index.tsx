@@ -10,20 +10,33 @@ import {
   Separator,
   StartCountdownButton,
 } from './styles';
+import { number } from 'zod/v4-mini';
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
-  minutesAmount: zod.number().min(5).max(60),
+  minutesAmount: zod
+    .number()
+    .min(5, 'O Ciclo precisa ser no mínimo 60 minutos.')
+    .max(60, 'O Ciclo precisa ser no máximo 60 minutos.'),
 });
+
+interface NewCycleFormatData {
+  task: string;
+  minutesAmount: number;
+}
 
 export function Home() {
   const { register, handleSubmit, watch } = useForm({
     resolver: zodResolver(newCycleFormValidationSchema),
+    defaultValues: {
+      task: '',
+      minutesAmount: 0,
+    },
   });
   const task = watch('task');
   const isSubmitDisabled = !task;
 
-  function handleCreateNewCyclo(data: unknown) {
+  function handleCreateNewCyclo(data: NewCycleFormatData) {
     return console.log(data);
   }
 
