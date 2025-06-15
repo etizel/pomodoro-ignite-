@@ -32,6 +32,7 @@ interface Cycle {
 export function Home() {
   const [cycles, setCycles] = useState<Cycle[]>([]);
   const [activeCycle, setActiveCycleId] = useState<string | null>(null);
+  const [AmountSecondsPassed, SetAmoutSecondsPassed] = useState(0);
   const { register, handleSubmit, watch, reset } = useForm<NewCycleFormatData>({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
@@ -57,6 +58,8 @@ export function Home() {
   }
 
   const activeCycle = cycles.find((cycles) => cycles.id === activeCycle);
+
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
 
   return (
     <HomeContainer>
