@@ -16,7 +16,7 @@ const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
   minutesAmount: zod
     .number()
-    .min(5, 'O Ciclo precisa ser no mínimo 60 minutos.')
+    .min(5, 'O Ciclo precisa ser no mínimo 5 minutos.')
     .max(60, 'O Ciclo precisa ser no máximo 60 minutos.'),
 });
 
@@ -31,8 +31,9 @@ interface Cycle {
 
 export function Home() {
   const [cycles, setCycles] = useState<Cycle[]>([]);
-  const [activeCycle, setActiveCycleId] = useState<string | null>(null);
-  const [AmountSecondsPassed, SetAmoutSecondsPassed] = useState(0);
+  const [activeCycleId, setActiveCycleId] = useState<string | null>(null);
+  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
+
   const { register, handleSubmit, watch, reset } = useForm<NewCycleFormatData>({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
@@ -40,15 +41,18 @@ export function Home() {
       minutesAmount: 0,
     },
   });
+
   const task = watch('task');
   const isSubmitDisabled = !task;
-  const id = String(new Date().getTime());
 
   function handleCreateNewCyclo(data: NewCycleFormatData) {
+    const id = String(new Date().getTime());
+
     const newCycle: Cycle = {
       id,
       task: data.task,
       minutesAmount: data.minutesAmount,
+      isActive: true,
     };
 
     setCycles((state) => [...state, newCycle]);
@@ -57,9 +61,16 @@ export function Home() {
     reset();
   }
 
-  const activeCycle = cycles.find((cycles) => cycles.id === activeCycle);
+  const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
+  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
+
+  const minutesAmount = Math.floor(currentSeconds / 60);
+  const secondsAmount = currentSeconds % 60;
+
+  const minutes = String(minutesAmount).padStart(2, '0');
+  const seconds = String(secondsAmount).padStart(2, '0');
 
   return (
     <HomeContainer>
@@ -74,11 +85,8 @@ export function Home() {
           />
 
           <datalist id="task-suggestions">
-            {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
             <option value="Projeto 1"></option>
-            {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
             <option value="Projeto 2"></option>
-            {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
             <option value="Projeto 3"></option>
           </datalist>
 
@@ -97,11 +105,11 @@ export function Home() {
         </FormContainer>
 
         <CountDownContainer>
-          <span>0</span>
-          <span>0</span>
+          <span>{minutes[0]}</span>
+          <span>{minutes[1]}</span>
           <Separator>:</Separator>
-          <span>0</span>
-          <span>0</span>
+          <span>{seconds[0]}</span>
+          <span>{seconds[1]}</span>
         </CountDownContainer>
 
         <StartCountdownButton disabled={isSubmitDisabled} type="submit">
