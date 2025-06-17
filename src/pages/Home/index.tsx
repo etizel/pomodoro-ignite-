@@ -30,13 +30,13 @@ interface Cycle {
   minutesAmount: number;
   isActive: boolean;
   startDate: Date;
+  interruptedDate?: Date;
 }
 
 export function Home() {
   const [cycles, setCycles] = useState<Cycle[]>([]);
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null);
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
-
   const { register, handleSubmit, watch, reset } = useForm<NewCycleFormatData>({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
@@ -82,6 +82,19 @@ export function Home() {
     reset();
   }
 
+  function handleInterruptCycle() {
+    setCycles(
+      cycles.map((cycle) => {
+        if (cycle.id === activeCycleId) {
+          return { ...cycle, interruptedDate: new Date() };
+        } else {
+          return cycle;
+        }
+      }),
+    );
+    setAmountSecondsPassed(0);
+    setActiveCycleId(null);
+  }
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
 
@@ -105,6 +118,7 @@ export function Home() {
           <input
             id="task"
             list="task-suggestions"
+            disabled={!!activeCycle}
             placeholder="Dê um nome ao teu projeto"
             {...register('task')}
           />
@@ -138,7 +152,7 @@ export function Home() {
         </CountDownContainer>
 
         {activeCycle ? (
-          <StopCountdownButton type="button">
+          <StopCountdownButton onClick={handleInterruptCycle} type="button">
             <HandPalm size={24} />
             Interromper
           </StopCountdownButton>
