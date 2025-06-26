@@ -5,10 +5,7 @@ import * as zod from 'zod';
 import { differenceInSeconds } from 'date-fns';
 
 import {
-  CountDownContainer,
-  FormContainer,
   HomeContainer,
-  Separator,
   StartCountdownButton,
   StopCountdownButton,
 } from './styles';
@@ -113,44 +110,6 @@ export function Home() {
   return (
     <HomeContainer>
       <form onSubmit={handleSubmit(handleCreateNewCyclo)} action="">
-        <FormContainer>
-          <label htmlFor="task">Irei Trabalhar em:</label>
-          <input
-            id="task"
-            list="task-suggestions"
-            disabled={!!activeCycle}
-            placeholder="Dê um nome ao teu projeto"
-            {...register('task')}
-          />
-
-          <datalist id="task-suggestions">
-            <option value="Projeto 1"></option>
-            <option value="Projeto 2"></option>
-            <option value="Projeto 3"></option>
-          </datalist>
-
-          <label htmlFor="minutesAmount">durante</label>
-          <input
-            type="number"
-            id="minutesAmount"
-            placeholder="00"
-            step={5}
-            min={5}
-            max={60}
-            {...register('minutesAmount', { valueAsNumber: true })}
-          />
-
-          <span>minutos.</span>
-        </FormContainer>
-
-        <CountDownContainer>
-          <span>{minutes[0]}</span>
-          <span>{minutes[1]}</span>
-          <Separator>:</Separator>
-          <span>{seconds[0]}</span>
-          <span>{seconds[1]}</span>
-        </CountDownContainer>
-
         {activeCycle ? (
           <StopCountdownButton onClick={handleInterruptCycle} type="button">
             <HandPalm size={24} />
