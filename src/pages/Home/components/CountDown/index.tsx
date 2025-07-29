@@ -1,30 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CountDownContainer } from './style';
 import { Separator } from './style';
 import { CycleContext } from '../..';
-import { HomeContainer } from '../../styles';
-import { NewCycleForm } from '../newCycleForm';
+import { differenceInSeconds } from 'date-fns';
 
 export function CountDown() {
-  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
+  const { activeCycle, activeCycleId, markCurrentCycleAsFinished } =
+    useContext(CycleContext);
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
+
   useEffect(() => {
     let interval: number;
 
     if (activeCycle) {
       interval = setInterval(() => {
-        setAmountSecondsPassed(
+        const secondsDifference = setAmountSecondsPassed(
           differenceInSeconds(new Date(), activeCycle.startDate),
         );
+        if (secondsDifference > totalSeconds) {
+          markCurrentCycleAsFinished();
+          setAmountSecondsPassed(totalSeconds);
+          clearInterval(interval);
+        } else {
+          setAmountSecondsPassed(secondsDifference);
+        }
       }, 1000);
     }
     return () => {
       clearInterval(interval);
     };
-  }, [activeCycle]);
+  }, [activeCycle, activeCycleId, totalSeconds, markCurrentCycleAsFinished]);
 
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
-
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
 
